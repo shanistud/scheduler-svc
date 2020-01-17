@@ -4,7 +4,8 @@ const { get } = require('lodash');
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-//happy path
+// assumes running local redis instance
+// happy path check only
 describe('echoAtTime', () => {
     describe('when sneding echoAtTime with valid message and time', () => {
 
@@ -12,7 +13,7 @@ describe('echoAtTime', () => {
 
         const params = {
             message:'Message printed after 5 seconds',
-            time: new Date(Date.now + 5000)
+            time: new Date(Date.now() + 5000).toISOString()
         }
 
         before(async ()  => {
@@ -28,8 +29,10 @@ describe('echoAtTime', () => {
         it('should print that message after time', async () => {
             const response = await axios.post('http://localhost:3000/scheduler/echoAtTime', params);
 
-            expect(res.data).to.exist;
-            expect(res.data.status).to.equal(200);
+            expect(response.status).to.equal(200);
+            expect(response.data).to.exist;
+            console.log(response.data)
+
             await sleep(5500);
             expect(console.log.calledWith(params.message)).to.be.true;
         }).timeout(6000);
