@@ -1,0 +1,13 @@
+coverage
+node_modules
+
+#OS
+.DS_Store
+.Trashes
+thumbs.db
+
+#IDE & Workspace files
+.idea
+.jshintrc
+.settings
+*.iml
